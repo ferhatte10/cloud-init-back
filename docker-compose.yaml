@@ -1,0 +1,39 @@
+services: 
+  # db service:
+  db:
+    container_name: db
+    image: mariadb:latest
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    command: --init-file=/data/application/init.sql
+    volumes:
+        - db_data:/var/lib/mysql
+        - ./init.sql:/data/application/init.sql
+    ports:
+      - 3306:3306
+    environment:
+      MARIADB_ROOT_PASSWORD: 4mvstWAvkShcgsOMG5fh
+    
+   # Back Api:
+  back:
+    container_name: back
+    build: ./api
+    security_opt:
+      - no-new-privileges:true
+    restart: always
+    ports:
+        - 3000:3000
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+    networks:
+      - backend_network
+networks:
+  backend_network:
+    driver: bridge
+
+volumes:
+  db_data:
+
