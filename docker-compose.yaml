@@ -15,20 +15,6 @@ services:
     environment:
       MARIADB_ROOT_PASSWORD: 4mvstWAvkShcgsOMG5fh
     
-   # Back Api:
-  back:
-    container_name: back
-    build: ./api
-    security_opt:
-      - no-new-privileges:true
-    restart: always
-    ports:
-        - 3000:3000
-    env_file:
-      - ./api/.env
-    depends_on:
-      - db
-
 volumes:
   db_data:
 
